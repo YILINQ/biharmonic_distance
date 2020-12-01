@@ -1,3 +1,5 @@
+
+#include <Eigen/Core>
 // Takes input sample points P and gives a watertight mesh.
 //
 // Inputs:

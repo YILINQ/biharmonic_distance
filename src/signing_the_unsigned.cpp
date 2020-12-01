@@ -3,7 +3,6 @@
 #include "igl/octree.h"
 
 
-#include <Eigen/Core>
 
 using namespace Eigen;
 using namespace std;
@@ -24,17 +23,17 @@ void signing_the_unsigned(
 	VectorXd O_W;
 	MatrixXi KNN;
 	igl::octree(P, O_PI, O_CH, O_CN, O_W);
-	igl::knn(P, K, O_PI, O_CH, O_CN, O_W, I);
+	igl::knn(P, K, O_PI, O_CH, O_CN, O_W, KNN);
 
 	// compute unsigned distance
 	VectorXd dU;
 	dU.resize(P.rows());
 	for(int i = 0; i < P.rows(); i++){
 		double u = 0;
-		for(int j = 0; j < KNN.row(i); j++){
-			u += (P.row(i) - P.row(KNN.row(i, j))).norm();
+		for(int j = 0; j < KNN.cols(); j++){
+			u += (P.row(i) - P.row(KNN(i, j))).norm();
 		}
-		dU(i) = 1.0 / k * sqrt(u);
+		dU(i) = 1.0 / K * sqrt(u);
 
 	}
 }
