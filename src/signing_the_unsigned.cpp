@@ -32,9 +32,9 @@ void signing_the_unsigned(
 	for(int i = 0; i < P.rows(); i++){
 		double u = 0;
 		for(int j = 0; j < KNN.row(i); j++){
-			u += P.row(i) - P.row(KNN.row(i, j));
+			u += (P.row(i) - P.row(KNN.row(i, j))).norm();
 		}
 		dU(i) = 1.0 / k * sqrt(u);
-		
+
 	}
 }
