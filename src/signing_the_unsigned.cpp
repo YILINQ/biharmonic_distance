@@ -28,6 +28,8 @@ void signing_the_unsigned(
 	// compute unsigned distance
 	VectorXd dU;
 	dU.resize(P.rows());
+
+	// TODO: optimize double for-loop
 	for(int i = 0; i < P.rows(); i++){
 		double u = 0;
 		for(int j = 0; j < KNN.cols(); j++){
@@ -36,4 +38,8 @@ void signing_the_unsigned(
 		dU(i) = 1.0 / K * sqrt(u);
 
 	}
+
+	// adaptive discretize and triangulation
+	
+
 }
