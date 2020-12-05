@@ -54,10 +54,10 @@ void biharmonic_distance(
 
 	// now LcA_Lc_ is invertible
 	MatrixXd Gd;
-	Gd.resize(N, N);
-
+	
+	Gd = LcA_Lc_inverse * J;
 	for(int j = 0; j < N; j++){
-		Gd.col(j) = LcA_Lc_inverse * J.col(j);
+		
 		Gd.col(j) -= (Ones.transpose() * Gd.col(j)) * Ones / (Ones.transpose()* Ones);
 		// Gd.col(j) -= Gd.col(j).sum() * Ones;
 	}
