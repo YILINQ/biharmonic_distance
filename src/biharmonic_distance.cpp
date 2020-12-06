@@ -21,16 +21,16 @@ void biharmonic_distance(
 
 	D.resize(N, N);
 	SparseMatrix<double> A, A_inv, Lc;
-	igl::massmatrix(V, F, MASSMATRIX_TYPE_VORONOI, A);
+	igl::massmatrix(V, F, MASSMATRIX_TYPE_BARYCENTRIC, A);
 	igl::invert_diag(A, A_inv);
 	igl::cotmatrix(V, F, Lc);
 
 
 	SparseMatrix<double> Ld;
-	Ld = A_inv * (-Lc);
+	Ld = A_inv * (Lc);
 
 	// compute Lc * A.inverse * Lc.inverse
-	MatrixXd LcA_Lc_ = (-Lc) * Ld;
+	MatrixXd LcA_Lc_ = (Lc) * Ld;
 	
 	LcA_Lc_.row(0).setZero();
 	LcA_Lc_.col(0).setZero();
@@ -41,19 +41,15 @@ void biharmonic_distance(
 	// set intersection to be 1
 	LcA_Lc_(0, 0) = 1;
 
-	// approximate approach
-	// int K = 150; 
+	// TODO approximate approach
+	int K = 100; 
 
-	// MatrixXd evecs;
-	// VectorXd evals;
-	// igl::eigs(Lc, A, K, EIGS_TYPE_SM, evecs, evals);
-	// cout << evecs.rows() << " " << evecs.cols() << endl;	
+	Lc = -Lc;
+	MatrixXd evecs;
+	VectorXd evals;
+	//igl::eigs(Lc, A, K, EIGS_TYPE_SM, evecs, evals);
+	//cout << evecs.rows() << " " << evecs.cols() << endl;	
 
-
-
-	MatrixXd LcA_Lc_inverse = LcA_Lc_.inverse();
-	// igl::pinv(LcA_Lc_, -1, LcA_Lc_inverse);
-	// cout << LcA_Lc_ << sep;
 	// make J matrix
 	MatrixXd J;
 	J.resize(N, N);
@@ -69,14 +65,15 @@ void biharmonic_distance(
 
 	// now LcA_Lc_ is invertible
 	MatrixXd Gd;
-	// Gd = LcA_Lc_.llt().solve(J);
-	Gd = LcA_Lc_inverse * J;
-	cout << Gd << sep;
-	for(int j = 0; j < N; j++){
-		
-		Gd.col(j) -= (Ones.transpose() * Gd.col(j)) * Ones / (Ones.transpose()* Ones);
-		
-	}
+	Gd = LcA_Lc_.llt().solve(J);
+	
+	// cout << Gd << sep;
+	VectorXd off = (1.0 / N) * Gd.colwise().sum();
+	MatrixXd offset = (off * Ones.transpose()).transpose();
+	Gd -= offset;
+	// for(int j = 0; j < N; j++){
+	// 	Gd.col(j) -= (1.0 / N) * (Gd.col(j).sum() * Ones);
+	// }
 
 	// dist D(i, j)^2 = Gd(i, i) + Gd(j, j) - 2*Gd(i, j)
 	

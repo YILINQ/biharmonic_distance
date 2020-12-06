@@ -21,7 +21,7 @@ void set_colormap(igl::opengl::glfw::Viewer & viewer)
   
 
   // Colormap texture
-  int num_intervals = 50;
+  int num_intervals = 100;
   Eigen::MatrixXd CM(num_intervals,3);
   for(int i = 0;i<num_intervals;i++)
   {
