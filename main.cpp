@@ -2,6 +2,7 @@
 #include <igl/opengl/glfw/Viewer.h>
 #include <iostream>
 #include <igl/isolines_map.h>
+#include <igl/parula.h>
 #include <igl/unproject_onto_mesh.h>
 #include <igl/read_triangle_mesh.h>
 #include <igl/opengl/glfw/Viewer.h>
@@ -17,18 +18,22 @@ using namespace std;
 
 void set_colormap(igl::opengl::glfw::Viewer & viewer)
 {
-  const int num_intervals = 30;
-  Eigen::MatrixXd CM(num_intervals,3);
+  
+
   // Colormap texture
+  int num_intervals = 50;
+  Eigen::MatrixXd CM(num_intervals,3);
   for(int i = 0;i<num_intervals;i++)
   {
     double t = double(num_intervals - i - 1)/double(num_intervals-1);
-    CM(i,0) = std::max(std::min(2.0*t-0.0,1.0),0.0);
-    CM(i,1) = std::max(std::min(2.0*t-1.0,1.0),0.0);
-    CM(i,2) = std::max(std::min(6.0*t-5.0,1.0),0.0);
+    CM(i,0) = std::max(std::min(2.0*t - 0.0,1.0),0.0);
+    CM(i,1) = std::max(std::min(2.0*t - 1.0,1.0),0.0);
+    CM(i,2) = std::max(std::min(6.0*t - 5.0,1.0),0.0);
   }
-  igl::isolines_map(Eigen::MatrixXd(CM),CM);
-  viewer.data().set_colormap(CM);
+	// igl::parula(Eigen::VectorXd::LinSpaced(70,0,1).eval(),false,CM);
+	igl::isolines_map(Eigen::MatrixXd(CM),CM);
+	viewer.data().set_colormap(CM);
+  
 }
 
 int main(int argc, char *argv[])
@@ -46,6 +51,7 @@ int main(int argc, char *argv[])
 	biharmonic_distance(V, F, D);
 
 
+	// define the update function
 	const auto update = [&]()->bool
   {
     int fid;
@@ -70,13 +76,15 @@ int main(int argc, char *argv[])
           (V.row(F(fid,2))-m3).squaredNorm()).minCoeff(&cid);
       const int vid = F(fid,cid);
       Dd = D.row(vid);
-
+      cout << Dd(0) << endl;
       
       viewer.data().set_data(Dd);
       return true;
     }
     return false;
   };
+
+  // mouse call back function
   viewer.callback_mouse_down =
     [&](igl::opengl::glfw::Viewer& viewer, int, int)->bool
   {
@@ -107,23 +115,12 @@ int main(int argc, char *argv[])
 
 
 
-	const int yid = viewer.selected_data_index;
   std::cout<<R"(
-  [space]  toggle animation
-  H,h      print lower bound on directed Hausdorff distance from X to Y
-  M,m      toggle between point-to-point and point-to-plane methods
-  P,p      show sample points
-  R,r      reset, also recomputes a random sampling and closest points
-  S        double number of samples
-  s        halve number of samples
+  drag mouse: change the source point of biharmonic distance.
 )";
 	viewer.data().set_mesh(V, F);
-	//reset();
   viewer.data().set_data(Eigen::VectorXd::Zero(V.rows()));
   set_colormap(viewer);
-
-
-
 
   viewer.launch();
   update();
