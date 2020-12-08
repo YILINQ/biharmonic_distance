@@ -5,6 +5,7 @@
 #include <igl/parula.h>
 #include <igl/unproject_onto_mesh.h>
 #include <igl/read_triangle_mesh.h>
+#include <igl/readOFF.h>
 #include <igl/opengl/glfw/Viewer.h>
 #include <Eigen/Core>
 #include <string>
@@ -49,6 +50,7 @@ int main(int argc, char *argv[])
 
 	Eigen::MatrixXd D;
 	biharmonic_distance(V, F, D);
+  
 
 
 	// define the update function

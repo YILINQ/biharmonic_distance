@@ -5,7 +5,10 @@
 #include "igl/pinv.h"
 #include "igl/eigs.h"
 
+#include <Eigen/Eigenvalues>
+
 using namespace Eigen;
+using namespace Spectra;
 using namespace std;
 using namespace igl;
 
@@ -16,7 +19,6 @@ void biharmonic_distance(
   const Eigen::MatrixXi & F,
   Eigen::MatrixXd &D)
 {
-	std::string sep = "\n----------------------------------------\n";
 	int N = V.rows();
 
 	D.resize(N, N);
@@ -28,27 +30,26 @@ void biharmonic_distance(
 
 	SparseMatrix<double> Ld;
 	Ld = A_inv * (Lc);
+	// cout << "A_inv \n" << A_inv <<sep;
+	// cout << "Lc \n" << Lc <<sep;
 
 	// compute Lc * A.inverse * Lc.inverse
 	MatrixXd LcA_Lc_ = (Lc) * Ld;
 	
 	LcA_Lc_.row(0).setZero();
 	LcA_Lc_.col(0).setZero();
-	// set 1st row and col to be 0
-	// LcA_Lc_.prune([](int i, int j, double){
-	// 	return i!=0 && j!=0;
-	// });
-	// set intersection to be 1
+
 	LcA_Lc_(0, 0) = 1;
 
 	// TODO approximate approach
-	int K = 100; 
+	int K = 200;
+	if(N < K){
+		K = N;
+	}
 
-	Lc = -Lc;
-	MatrixXd evecs;
-	VectorXd evals;
-	//igl::eigs(Lc, A, K, EIGS_TYPE_SM, evecs, evals);
-	//cout << evecs.rows() << " " << evecs.cols() << endl;	
+	
+	// approximate approach
+
 
 	// make J matrix
 	MatrixXd J;
@@ -56,18 +57,14 @@ void biharmonic_distance(
 	Eigen::VectorXd Ones = Eigen::VectorXd::Ones(N);
 	J = Eigen::MatrixXd::Identity(N, N) - (1.0 / N) * (Ones * Ones.transpose());
 	J.row(0).setZero();
-	// SparseMatrix<double> JJ = J.sparseview();
 
-	// // set 1st row of J to be 0
-	// JJ.prune([](int i, int j, double){
-	// 	return i!=0;
-	// })
 
 	// now LcA_Lc_ is invertible
 	MatrixXd Gd;
+	// cout << LcA_Lc_ << endl;
 	Gd = LcA_Lc_.llt().solve(J);
-	
 	// cout << Gd << sep;
+
 	VectorXd off = (1.0 / N) * Gd.colwise().sum();
 	MatrixXd offset = (off * Ones.transpose()).transpose();
 	Gd -= offset;
@@ -81,6 +78,5 @@ void biharmonic_distance(
 	VectorXd diag = Gd.diagonal();
 	MatrixXd dd = diag * Ones.transpose();
 	D = sqrt((dd + dd.transpose() - 2*Gd).array());
-
 
 }	
