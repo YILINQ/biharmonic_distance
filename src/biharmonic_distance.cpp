@@ -8,7 +8,6 @@
 #include <Eigen/Eigenvalues>
 
 using namespace Eigen;
-using namespace Spectra;
 using namespace std;
 using namespace igl;
 
@@ -30,8 +29,6 @@ void biharmonic_distance(
 
 	SparseMatrix<double> Ld;
 	Ld = A_inv * (Lc);
-	// cout << "A_inv \n" << A_inv <<sep;
-	// cout << "Lc \n" << Lc <<sep;
 
 	// compute Lc * A.inverse * Lc.inverse
 	MatrixXd LcA_Lc_ = (Lc) * Ld;
@@ -40,15 +37,6 @@ void biharmonic_distance(
 	LcA_Lc_.col(0).setZero();
 
 	LcA_Lc_(0, 0) = 1;
-
-	// TODO approximate approach
-	int K = 200;
-	if(N < K){
-		K = N;
-	}
-
-	
-	// approximate approach
 
 
 	// make J matrix
@@ -61,19 +49,13 @@ void biharmonic_distance(
 
 	// now LcA_Lc_ is invertible
 	MatrixXd Gd;
-	// cout << LcA_Lc_ << endl;
 	Gd = LcA_Lc_.llt().solve(J);
-	// cout << Gd << sep;
 
 	VectorXd off = (1.0 / N) * Gd.colwise().sum();
 	MatrixXd offset = (off * Ones.transpose()).transpose();
 	Gd -= offset;
-	// for(int j = 0; j < N; j++){
-	// 	Gd.col(j) -= (1.0 / N) * (Gd.col(j).sum() * Ones);
-	// }
 
 	// dist D(i, j)^2 = Gd(i, i) + Gd(j, j) - 2*Gd(i, j)
-	
 	// set D;
 	VectorXd diag = Gd.diagonal();
 	MatrixXd dd = diag * Ones.transpose();
