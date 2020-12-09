@@ -1,7 +1,7 @@
 # Distance Between Two Points On 3D Surface
-In computer graphics, there are many known algorithms for defining the *distance between two points on a 3D surface*. So far, the most popular distance definitions are the **Geodesic distance** and the **Diffusion distance**, however, each of them has its advantages and drawbacks.
+In computer graphics, there are many known algorithms for defining the *distance between two points on a 3D surface*. So far, the most popular distance definitions are the **Geodesic distance** and the **Diffusion distance**. However, each of them has its advantages and drawbacks.
 
-In general, the quality of a distance definition is measured by fulfillment of the following 8 properties:
+In general, the quality of a distance definition is measured by fulfillment of the following 8 properties<sup>[1]</sup>:
 
 1. **metric**: non-negative, satisfies the identity of indiscernibles, symmetric, and satisfies the triangle inequality;
 2. **smooth**: smooth with respect to perturbations of <img src="./svgs/332cc365a4987aacce0ead01b8bdcc0b.svg?invert_in_darkmode" align=middle width=9.3949878pt height=14.1552444pt/> and <img src="./svgs/deceeaf6940a8c7a5a02373728002b0f.svg?invert_in_darkmode" align=middle width=8.64922575pt height=14.1552444pt/>, with no singularities except derivative discontinuity at <img src="./svgs/332cc365a4987aacce0ead01b8bdcc0b.svg?invert_in_darkmode" align=middle width=9.3949878pt height=14.1552444pt/>;
@@ -84,7 +84,7 @@ Finally, the **discrete biharmonic distance** is defined by
 
 
 
-Libigl includes a wrapper for the discrete biharmonic distance<img src="./svgs/ecb2edc691a4d089460ad80188b5da8f.svg?invert_in_darkmode" align=middle width=13.9955178pt height=29.190975pt/> developed by Yilin Qu ([https://github.com/YILINQ/biharmonic_distance/blob/master/src/biharmonic_distance.cpp](https://github.com/YILINQ/biharmonic_distance/blob/master/src/biharmonic_distance.cpp)), exposing it through an Eigen-based API. The function
+Libigl includes a wrapper for the discrete biharmonic distance<sup>[1]</sup> developed by Yilin Qu ([https://github.com/YILINQ/biharmonic_distance/blob/master/src/biharmonic_distance.cpp](https://github.com/YILINQ/biharmonic_distance/blob/master/src/biharmonic_distance.cpp)), exposing it through an Eigen-based API. The function
 
 ```C++
 igl::biharmonic_distance(V,F,D);
@@ -106,13 +106,13 @@ Under the consideration of runtime, we may approximate <img src="./svgs/d68565aa
 
 <p align="center"><img src="./svgs/101979c7c8df113a315890e3d6369c59.svg?invert_in_darkmode" align=middle width=242.09012685pt height=48.18280005pt/></p>
 
-That is to compute the first <img src="./svgs/d6328eaebbcd5c358f426dbea4bdbf70.svg?invert_in_darkmode" align=middle width=15.13700595pt height=22.4657235pt/> eigenvectors of the discrete Laplacian <img src="./svgs/8c5dbfcdf090de6e4792d3fde07eb146.svg?invert_in_darkmode" align=middle width=95.9013858pt height=22.8310566pt/>, which boils down to solving the generalized eigenvalue problem
+That is to compute the first <img src="./svgs/d6328eaebbcd5c358f426dbea4bdbf70.svg?invert_in_darkmode" align=middle width=15.13700595pt height=22.4657235pt/> eigenvectors (that correspond to the largest <img src="./svgs/d6328eaebbcd5c358f426dbea4bdbf70.svg?invert_in_darkmode" align=middle width=15.13700595pt height=22.4657235pt/> eigenvalues) of the discrete Laplacian <img src="./svgs/8c5dbfcdf090de6e4792d3fde07eb146.svg?invert_in_darkmode" align=middle width=95.9013858pt height=22.8310566pt/>, which boils down to solving the generalized eigenvalue problem
 
 <p align="center"><img src="./svgs/e51cf2c5dfe176066306391a120c0a36.svg?invert_in_darkmode" align=middle width=110.1384669pt height=14.6118786pt/></p>
 
 
 
-Libigl includes a wrapper for the approximated discrete biharmonic distance<img src="./svgs/ecb2edc691a4d089460ad80188b5da8f.svg?invert_in_darkmode" align=middle width=13.9955178pt height=29.190975pt/>, exposing it through an Eigen-based API. The function
+Libigl includes a wrapper for the approximated discrete biharmonic distance<sup>[1]</sup>, exposing it through an Eigen-based API. The function
 
 ```C++
 igl::biharmonic_distance_approx(V,F,k,D);
@@ -128,15 +128,15 @@ computes the approximated discrete biharmonic distances between each pair of ver
 
 <img src="./image/sphere_noisy_approx.jpg" alt="lucy" style="zoom:80%;" />
 
-Distance comparison between the exact approach (left) and the approximate approach with <img src="./svgs/e72c02985d15e905a87b947244fb0fdf.svg?invert_in_darkmode" align=middle width=53.4930495pt height=22.4657235pt/> (right).
+Distance comparison between the exact approach (left) and the approximate approach (right).
 
 
 
-| Mesh                               | Exact  | Approximate                                                  |
-| ---------------------------------- | ------ | ------------------------------------------------------------ |
+| Mesh                               | Exact  | Approximate         |
+| ---------------------------------- | ------ | ------------------- |
 | cactus (with 5261 vertices)        | 24.13s | 1.17s (with <img src="./svgs/e72c02985d15e905a87b947244fb0fdf.svg?invert_in_darkmode" align=middle width=53.4930495pt height=22.4657235pt/>) |
 | lucy (with 2502 vertices)          | 2.76s  | 0.58s (with <img src="./svgs/e72c02985d15e905a87b947244fb0fdf.svg?invert_in_darkmode" align=middle width=53.4930495pt height=22.4657235pt/>) |
-| sphere-noisy (with 10242 vertices) | 181s   | 2.6s (with <img src="./svgs/4485568012854cb7ff9d8f6f6bcff06d.svg?invert_in_darkmode" align=middle width=53.4930495pt height=22.4657235pt/>) |
+| sphere-noisy (with 10242 vertices) | 181s   | 2.6s (with <img src="./svgs/4485568012854cb7ff9d8f6f6bcff06d.svg?invert_in_darkmode" align=middle width=53.4930495pt height=22.4657235pt/>)  |
 
 Runtime comparison between the exact approach and the approximate approach.
 
