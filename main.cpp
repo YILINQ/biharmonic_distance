@@ -1,8 +1,9 @@
 #include "../include/biharmonic_distance.h"
+#include "../include/biharmonic_distance_approx.h"
+
 #include <igl/opengl/glfw/Viewer.h>
 #include <iostream>
 #include <igl/isolines_map.h>
-#include <igl/parula.h>
 #include <igl/unproject_onto_mesh.h>
 #include <igl/read_triangle_mesh.h>
 #include <igl/readOFF.h>
@@ -12,14 +13,13 @@
 #include <iostream>
 
 
-#include<tuple>
-
 using namespace Eigen;
 using namespace std;
 
+// this viusalization part has similar color map setting as tutorial #716
+// in case to compare biharmonic to geodesic
 void set_colormap(igl::opengl::glfw::Viewer & viewer)
 {
-  
 
   // Colormap texture
   int num_intervals = 50;
@@ -31,27 +31,44 @@ void set_colormap(igl::opengl::glfw::Viewer & viewer)
     CM(i,1) = std::max(std::min(2.0*t - 1.0,1.0),0.0);
     CM(i,2) = std::max(std::min(6.0*t - 5.0,1.0),0.0);
   }
-	// igl::parula(Eigen::VectorXd::LinSpaced(70,0,1).eval(),false,CM);
 	igl::isolines_map(Eigen::MatrixXd(CM),CM);
 	viewer.data().set_colormap(CM);
   
 }
-
+ 
 int main(int argc, char *argv[])
 {
 	Eigen::MatrixXd V;
 	Eigen::MatrixXi F;
+  Eigen::MatrixXd D;
+
+
 	bool down_on_mesh = false;
-	igl::read_triangle_mesh(
+  if((argc != 1) && (argc != 2) && (argc != 3)){
+    cout << "Usage: exact computation: ./biharmonic_distance path_to_data ";
+    cout << "Or approximate computation: ";
+    cout << "./biharmonic_distance -k, where k is the number of eigen vectors to use\n";
+    return 0;
+  }
+  if(argc==2 || argc ==1){
+    cout << "Use exact distance computation\n";
+    igl::read_triangle_mesh(
     (argc>1?argv[1]:"../data/beetle.obj"),V,F);
+    biharmonic_distance(V, F, D);
+  }
+
+  if(argc == 3){
+    char* p;
+    int k = strtol(argv[2], &p, 10);
+    cout << "Use approximate distance computation\n";
+    igl::read_triangle_mesh(
+    (argc>1?argv[1]:"../data/beetle.obj"),V,F);
+    biharmonic_distance_approx(V, F, k, D);
+  }
+	
 	igl::opengl::glfw::Viewer viewer;
 	const int xid = viewer.selected_data_index;
 	viewer.append_mesh();
-
-	Eigen::MatrixXd D;
-	biharmonic_distance(V, F, D);
-
-
 
 	// define the update function
 	const auto update = [&]()->bool

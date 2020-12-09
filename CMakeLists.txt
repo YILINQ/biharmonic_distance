@@ -11,6 +11,7 @@ find_package(LIBIGL REQUIRED)
 
 # Add your project files
 include_directories("include/")
+include_directories("spectra-0.8.1/include/")
 if(USE_SOLUTION)
   file(GLOB SRCFILES solution/*.cpp)
 else()

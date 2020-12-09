@@ -3,6 +3,7 @@
 #include "igl/invert_diag.h"
 #include "igl/massmatrix.h"
 #include <Eigen/Eigenvalues>
+#include <Eigen/SparseCore>
 
 using namespace Eigen;
 using namespace std;
@@ -12,7 +13,9 @@ void biharmonic_distance(
   const Eigen::MatrixXi & F,
   Eigen::MatrixXd &D)
 {
+
   int N = V.rows();
+  D.resize(N, N);
 
   SparseMatrix<double> A, A_inv, Lc;
   igl::massmatrix(V, F, igl::MASSMATRIX_TYPE_BARYCENTRIC, A);
@@ -46,6 +49,6 @@ void biharmonic_distance(
   // dist D(i, j)^2 = Gd(i, i) + Gd(j, j) - 2 * Gd(i, j)
   VectorXd diag = Gd.diagonal();
   MatrixXd dd = diag * Ones.transpose();
-  D.resize(N, N);
   D = sqrt((dd + dd.transpose() - 2 * Gd).array());
 }
+
