@@ -41,38 +41,38 @@ void biharmonic_distance_approx(
 
 
   // approximate approach
-	int K = k;
-	if (K > N){
-		K = N;
-	}
+  int K = k;
+  if (K > N){
+  	K = N;
+  }
 
-	// choose the hyper param convergence speed from 2*K to 5*K is the emperical result
-	int conv_speed = K * 5;
-	SparseSymMatProd<double> op(Lc);
-	SparseCholesky<double> Bop(A);
-	SymGEigsSolver<double, LARGEST_ALGE, SparseSymMatProd<double>, SparseCholesky<double>, GEIGS_CHOLESKY> 
-	geigs(&op, &Bop, K, conv_speed);
+  // choose the hyper param convergence speed from 2*K to 5*K is the emperical result
+  int conv_speed = K * 5;
+  SparseSymMatProd<double> op(Lc);
+  SparseCholesky<double> Bop(A);
+  SymGEigsSolver<double, LARGEST_ALGE, SparseSymMatProd<double>, SparseCholesky<double>, GEIGS_CHOLESKY> 
+  geigs(&op, &Bop, K, conv_speed);
 
-	geigs.init();
+  geigs.init();
   int nconv = geigs.compute(10000);
   Eigen::VectorXd evalues;
   Eigen::MatrixXd evectors;
 
-  
+
   if(geigs.info() == SUCCESSFUL){
     evalues = geigs.eigenvalues();
   	evectors = geigs.eigenvectors();
   }
       
   // cannot find a good way to vectorize this..
- 	for(int i = 0; i < N; i++){
- 		for(int j = 0; j < N; j++){
- 			double d = 0.0;
- 			for(int k = 0; k < K; k++){
- 				d += 1.0 / (evalues(k) * evalues(k)) * (evectors(i, k) - evectors(j, k)) * (evectors(i, k) - evectors(j, k));
- 			}
- 		D(i, j) = sqrt(d);
- 		}
- 	}
- 	return;
+  	for(int i = 0; i < N; i++){
+  		for(int j = 0; j < N; j++){
+  			double d = 0.0;
+  			for(int k = 0; k < K; k++){
+  				d += 1.0 / (evalues(k) * evalues(k)) * (evectors(i, k) - evectors(j, k)) * (evectors(i, k) - evectors(j, k));
+  			}
+  		D(i, j) = sqrt(d);
+  		}
+  	}
+  	return;
 }
