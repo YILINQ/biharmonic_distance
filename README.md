@@ -106,7 +106,7 @@ Under the consideration of runtime, we may approximate <img src="./svgs/d68565aa
 
 <p align="center"><img src="./svgs/101979c7c8df113a315890e3d6369c59.svg?invert_in_darkmode" align=middle width=242.09012685pt height=48.18280005pt/></p>
 
-That is to compute the first <img src="./svgs/d6328eaebbcd5c358f426dbea4bdbf70.svg?invert_in_darkmode" align=middle width=15.13700595pt height=22.4657235pt/> eigenvectors of the discrete Laplacian <img src="./svgs/8c5dbfcdf090de6e4792d3fde07eb146.svg?invert_in_darkmode" align=middle width=95.9013858pt height=22.8310566pt/>, which boils down to solving the generalized eigenvalue problem
+That is to compute the first <img src="./svgs/d6328eaebbcd5c358f426dbea4bdbf70.svg?invert_in_darkmode" align=middle width=15.13700595pt height=22.4657235pt/> eigenvectors of the discrete Laplacian <img src="./svgs/8c5dbfcdf090de6e4792d3fde07eb146.svg?invert_in_darkmode" align=middle width=95.9013858pt height=22.8310566pt/>, which boils down to solving the generalized eigenvalue problem (using )
 
 <p align="center"><img src="./svgs/e51cf2c5dfe176066306391a120c0a36.svg?invert_in_darkmode" align=middle width=110.1384669pt height=14.6118786pt/></p>
 
@@ -122,18 +122,21 @@ computes the approximated discrete biharmonic distances between each pair of ver
 
 
 
-TODO: add image
+<img src="./image/cactus_approx.png" alt="cactus" style="zoom:80%;" />
 
-Distance comparison between the exact approach (left) and the approximate approach (right).
+<img src="./image/lucy_approx.png" alt="lucy" style="zoom:80%;" />
+
+<img src="./image/sphere_noisy_approx.png" alt="lucy" style="zoom:80%;" />
+
+Distance comparison between the exact approach (left) and the approximate approach with <img src="./svgs/e72c02985d15e905a87b947244fb0fdf.svg?invert_in_darkmode" align=middle width=53.4930495pt height=22.4657235pt/> (right).
 
 
 
-TODO: update table
-
-|                            | Exact | Approximate (with <img src="./svgs/071678d5a1ade4879c03e94c329c0314.svg?invert_in_darkmode" align=middle width=61.71225885pt height=22.4657235pt/>) |
-| -------------------------- | ----- | ------------------------------------------------------------ |
-| cactus (with ??? vertices) | ???   | ???                                                          |
-| lucy (with ??? vertices)   | ???   | ???                                                          |
+|                                    | Exact  | Approximate         |
+| ---------------------------------- | ------ | ------------------- |
+| cactus (with 5261 vertices)        | 24.13s | 1.17s (with <img src="./svgs/e72c02985d15e905a87b947244fb0fdf.svg?invert_in_darkmode" align=middle width=53.4930495pt height=22.4657235pt/>) |
+| lucy (with 2502 vertices)          | 2.76s  | 0.58s (with <img src="./svgs/e72c02985d15e905a87b947244fb0fdf.svg?invert_in_darkmode" align=middle width=53.4930495pt height=22.4657235pt/>) |
+| sphere-noisy (with 10242 vertices) | 181s   | 2.6s (with <img src="./svgs/4485568012854cb7ff9d8f6f6bcff06d.svg?invert_in_darkmode" align=middle width=53.4930495pt height=22.4657235pt/>)  |
 
 Runtime comparison between the exact approach and the approximate approach.
 
