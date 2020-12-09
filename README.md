@@ -14,7 +14,7 @@ In general, the quality of a distance definition is measured by fulfillment of t
 
 Unfortunately, none of the two popular methods satisfies all eight properties. But luckily, the **Biharmonic distance** was developed, which satisfies all eight properties.
 
-|                                      | Geodesic distance | Diffusion distance | Biharmonic distance |
+| Properties                           | Geodesic distance | Diffusion distance | Biharmonic distance |
 | ------------------------------------ | :---------------: | :----------------: | :-----------------: |
 | 1) metric                            |         ✅         |         ✅          |          ✅          |
 | 2) smooth                            |         ❌         |         ❌          |          ✅          |
@@ -92,9 +92,9 @@ igl::biharmonic_distance(V,F,D);
 
 computes the discrete biharmonic distances between each pair of vertices in V.
 
-<img src="./image/cactus.png" alt="cactus" style="zoom:80%;" />
+<img src="./image/cactus.jpg" alt="cactus" style="zoom:80%;" />
 
-<img src="./image/lucy.png" alt="lucy" style="zoom:80%;" />
+<img src="./image/lucy.jpg" alt="lucy" style="zoom:80%;" />
 
 [Example 001](https://github.com/YILINQ/biharmonic_distance/blob/master/main.cpp) allows to interactively pick the source vertex and displays the distance using a periodic color pattern. (left) Biharmonic distance, (right) Geodesic distance.
 
@@ -122,18 +122,21 @@ computes the approximated discrete biharmonic distances between each pair of ver
 
 
 
-TODO: add image
+<img src="./image/cactus_approx.jpg" alt="cactus" style="zoom:80%;" />
 
-Distance comparison between the exact approach (left) and the approximate approach (right).
+<img src="./image/lucy_approx.jpg" alt="lucy" style="zoom:80%;" />
+
+<img src="./image/sphere_noisy_approx.jpg" alt="lucy" style="zoom:80%;" />
+
+Distance comparison between the exact approach (left) and the approximate approach with <img src="./svgs/e72c02985d15e905a87b947244fb0fdf.svg?invert_in_darkmode" align=middle width=53.4930495pt height=22.4657235pt/> (right).
 
 
 
-TODO: update table
-
-|                            | Exact | Approximate (with <img src="./svgs/071678d5a1ade4879c03e94c329c0314.svg?invert_in_darkmode" align=middle width=61.71225885pt height=22.4657235pt/>) |
-| -------------------------- | ----- | ------------------------------------------------------------ |
-| cactus (with ??? vertices) | ???   | ???                                                          |
-| lucy (with ??? vertices)   | ???   | ???                                                          |
+| Mesh                               | Exact  | Approximate                                                  |
+| ---------------------------------- | ------ | ------------------------------------------------------------ |
+| cactus (with 5261 vertices)        | 24.13s | 1.17s (with <img src="./svgs/e72c02985d15e905a87b947244fb0fdf.svg?invert_in_darkmode" align=middle width=53.4930495pt height=22.4657235pt/>) |
+| lucy (with 2502 vertices)          | 2.76s  | 0.58s (with <img src="./svgs/e72c02985d15e905a87b947244fb0fdf.svg?invert_in_darkmode" align=middle width=53.4930495pt height=22.4657235pt/>) |
+| sphere-noisy (with 10242 vertices) | 181s   | 2.6s (with <img src="./svgs/4485568012854cb7ff9d8f6f6bcff06d.svg?invert_in_darkmode" align=middle width=53.4930495pt height=22.4657235pt/>) |
 
 Runtime comparison between the exact approach and the approximate approach.
 
@@ -142,4 +145,6 @@ Runtime comparison between the exact approach and the approximate approach.
 ### References
 
 1. Y. Lipman, R. M. Rustamov, T. A. Funkhouser, [Biharmonic Distance](https://www.cs.princeton.edu/~funk/biharmonic.pdf), 2010.
+
+2. Yixuan Qiu, [Spectra: C++ Library For Large Scale Eigenvalue Problems](https://spectralib.org/index.html), 2019.
 
