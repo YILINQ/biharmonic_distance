@@ -74,5 +74,5 @@ void biharmonic_distance_approx(
   	D(i, j) = sqrt(d);
   	}
   }
-	return;
+  return;
 }
