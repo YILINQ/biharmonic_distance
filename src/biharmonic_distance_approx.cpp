@@ -65,14 +65,14 @@ void biharmonic_distance_approx(
   }
       
   // cannot find a good way to vectorize this..
-  	for(int i = 0; i < N; i++){
-  		for(int j = 0; j < N; j++){
-  			double d = 0.0;
-  			for(int k = 0; k < K; k++){
-  				d += 1.0 / (evalues(k) * evalues(k)) * (evectors(i, k) - evectors(j, k)) * (evectors(i, k) - evectors(j, k));
-  			}
-  		D(i, j) = sqrt(d);
-  		}
-  	}
-  	return;
+	for(int i = 0; i < N; i++){
+		for(int j = 0; j < N; j++){
+			double d = 0.0;
+			for(int k = 0; k < K; k++){
+				d += 1.0 / (evalues(k) * evalues(k)) * (evectors(i, k) - evectors(j, k)) * (evectors(i, k) - evectors(j, k));
+			}
+		D(i, j) = sqrt(d);
+		}
+	}
+	return;
 }
