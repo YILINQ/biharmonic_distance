@@ -92,9 +92,9 @@ igl::biharmonic_distance(V,F,D);
 
 computes the discrete biharmonic distances between each pair of vertices in V.
 
-<img src="./image/cactus.png" alt="cactus" style="zoom:80%;" />
+<img src="./image/cactus.jpg" alt="cactus" style="zoom:80%;" />
 
-<img src="./image/lucy.png" alt="lucy" style="zoom:80%;" />
+<img src="./image/lucy.jpg" alt="lucy" style="zoom:80%;" />
 
 [Example 001](https://github.com/YILINQ/biharmonic_distance/blob/master/main.cpp) allows to interactively pick the source vertex and displays the distance using a periodic color pattern. (left) Biharmonic distance, (right) Geodesic distance.
 
@@ -106,7 +106,7 @@ Under the consideration of runtime, we may approximate <img src="./svgs/d68565aa
 
 <p align="center"><img src="./svgs/101979c7c8df113a315890e3d6369c59.svg?invert_in_darkmode" align=middle width=242.09012685pt height=48.18280005pt/></p>
 
-That is to compute the first <img src="./svgs/d6328eaebbcd5c358f426dbea4bdbf70.svg?invert_in_darkmode" align=middle width=15.13700595pt height=22.4657235pt/> eigenvectors of the discrete Laplacian <img src="./svgs/8c5dbfcdf090de6e4792d3fde07eb146.svg?invert_in_darkmode" align=middle width=95.9013858pt height=22.8310566pt/>, which boils down to solving the generalized eigenvalue problem (using )
+That is to compute the first <img src="./svgs/d6328eaebbcd5c358f426dbea4bdbf70.svg?invert_in_darkmode" align=middle width=15.13700595pt height=22.4657235pt/> eigenvectors of the discrete Laplacian <img src="./svgs/8c5dbfcdf090de6e4792d3fde07eb146.svg?invert_in_darkmode" align=middle width=95.9013858pt height=22.8310566pt/>, which boils down to solving the generalized eigenvalue problem
 
 <p align="center"><img src="./svgs/e51cf2c5dfe176066306391a120c0a36.svg?invert_in_darkmode" align=middle width=110.1384669pt height=14.6118786pt/></p>
 
@@ -122,11 +122,11 @@ computes the approximated discrete biharmonic distances between each pair of ver
 
 
 
-<img src="./image/cactus_approx.png" alt="cactus" style="zoom:80%;" />
+<img src="./image/cactus_approx.jpg" alt="cactus" style="zoom:80%;" />
 
-<img src="./image/lucy_approx.png" alt="lucy" style="zoom:80%;" />
+<img src="./image/lucy_approx.jpg" alt="lucy" style="zoom:80%;" />
 
-<img src="./image/sphere_noisy_approx.png" alt="lucy" style="zoom:80%;" />
+<img src="./image/sphere_noisy_approx.jpg" alt="lucy" style="zoom:80%;" />
 
 Distance comparison between the exact approach (left) and the approximate approach with <img src="./svgs/e72c02985d15e905a87b947244fb0fdf.svg?invert_in_darkmode" align=middle width=53.4930495pt height=22.4657235pt/> (right).
 
@@ -145,4 +145,6 @@ Runtime comparison between the exact approach and the approximate approach.
 ### References
 
 1. Y. Lipman, R. M. Rustamov, T. A. Funkhouser, [Biharmonic Distance](https://www.cs.princeton.edu/~funk/biharmonic.pdf), 2010.
+
+2. Yixuan Qiu, [Spectra: C++ Library For Large Scale Eigenvalue Problems](https://spectralib.org/index.html), 2019.
 
