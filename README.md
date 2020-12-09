@@ -14,7 +14,7 @@ In general, the quality of a distance definition is measured by fulfillment of t
 
 Unfortunately, none of the two popular methods satisfies all eight properties. But luckily, the **Biharmonic distance** was developed, which satisfies all eight properties.
 
-|                                      | Geodesic distance | Diffusion distance | Biharmonic distance |
+| Properties                           | Geodesic distance | Diffusion distance | Biharmonic distance |
 | ------------------------------------ | :---------------: | :----------------: | :-----------------: |
 | 1) metric                            |         ✅         |         ✅          |          ✅          |
 | 2) smooth                            |         ❌         |         ❌          |          ✅          |
@@ -132,11 +132,11 @@ Distance comparison between the exact approach (left) and the approximate approa
 
 
 
-|                                    | Exact  | Approximate         |
-| ---------------------------------- | ------ | ------------------- |
+| Mesh                               | Exact  | Approximate                                                  |
+| ---------------------------------- | ------ | ------------------------------------------------------------ |
 | cactus (with 5261 vertices)        | 24.13s | 1.17s (with <img src="./svgs/e72c02985d15e905a87b947244fb0fdf.svg?invert_in_darkmode" align=middle width=53.4930495pt height=22.4657235pt/>) |
 | lucy (with 2502 vertices)          | 2.76s  | 0.58s (with <img src="./svgs/e72c02985d15e905a87b947244fb0fdf.svg?invert_in_darkmode" align=middle width=53.4930495pt height=22.4657235pt/>) |
-| sphere-noisy (with 10242 vertices) | 181s   | 2.6s (with <img src="./svgs/4485568012854cb7ff9d8f6f6bcff06d.svg?invert_in_darkmode" align=middle width=53.4930495pt height=22.4657235pt/>)  |
+| sphere-noisy (with 10242 vertices) | 181s   | 2.6s (with <img src="./svgs/4485568012854cb7ff9d8f6f6bcff06d.svg?invert_in_darkmode" align=middle width=53.4930495pt height=22.4657235pt/>) |
 
 Runtime comparison between the exact approach and the approximate approach.
 
